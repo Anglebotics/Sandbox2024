@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    StatusCode error = orchestra.loadMusic("mega.chrp");
+    StatusCode error = orchestra.loadMusic("zelda.chrp");
     orchestra.addInstrument(musicMotor);
     
 
