@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,6 +36,7 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private final TalonFX musicMotor = new TalonFX(19);
   private final Orchestra orchestra = new Orchestra();
+  private final DigitalInput input = new DigitalInput(0);
 
   // private Rev2mDistanceSensor distOnboard;
   // private Rev2mDistanceSensor distMXP;
@@ -55,7 +57,6 @@ public class Robot extends TimedRobot {
 
     StatusCode error = orchestra.loadMusic("zelda.chrp");
     orchestra.addInstrument(musicMotor);
-    
 
     // distOnboard = new Rev2mDistanceSensor(Port.kOnboard);
     // distMXP = new Rev2mDistanceSensor(Port.kMXP);
@@ -126,23 +127,27 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     // System.out.println(orchestra.isPlaying());
-    
-    boolean isNote = false;
-    double proximity = colorSensorLow.getProximity();
 
-    if (colorSensorLow.getRed() > 350 && colorSensorLow.getRed() < 750 && colorSensorLow.getBlue() < 275
-        && colorSensorLow.getBlue() > 50 && colorSensorLow.getGreen() < 525 && colorSensorLow.getGreen() > 250) {
-      isNote = true;
-    } else {
-      isNote = false;
-    }
-    SmartDashboard.putNumber("Proximity", colorSensorLow.getProximity());
+    SmartDashboard.putBoolean("Break?", input.get());
 
-    SmartDashboard.putNumber("Red", colorSensorLow.getRed());
-    SmartDashboard.putNumber("Green", colorSensorLow.getGreen());
-    SmartDashboard.putNumber("Blue", colorSensorLow.getBlue());
+    // boolean isNote = false;
+    // double proximity = colorSensorLow.getProximity();
 
-    SmartDashboard.putBoolean("Note", isNote);
+    // if (colorSensorLow.getRed() > 350 && colorSensorLow.getRed() < 750 &&
+    // colorSensorLow.getBlue() < 275
+    // && colorSensorLow.getBlue() > 50 && colorSensorLow.getGreen() < 525 &&
+    // colorSensorLow.getGreen() > 250) {
+    // isNote = true;
+    // } else {
+    // isNote = false;
+    // }
+    // SmartDashboard.putNumber("Proximity", colorSensorLow.getProximity());
+
+    // SmartDashboard.putNumber("Red", colorSensorLow.getRed());
+    // SmartDashboard.putNumber("Green", colorSensorLow.getGreen());
+    // SmartDashboard.putNumber("Blue", colorSensorLow.getBlue());
+
+    // SmartDashboard.putBoolean("Note", isNote);
 
     // if(distOnboard.isRangeValid()) {
     // SmartDashboard.putNumber("Range Onboard", distOnboard.getRange());
