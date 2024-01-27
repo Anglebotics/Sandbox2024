@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import com.revrobotics.*;
-// import com.revrobotics.Rev2mDistanceSensor.Port;
+//import com.revrobotics.*;
+//import com.revrobotics.Rev2mDistanceSensor.Port;
 
-import com.revrobotics.ColorSensorV3.RawColor;
-import edu.wpi.first.wpilibj.I2C.Port;
+//import com.revrobotics.ColorSensorV3.RawColor;
+//import edu.wpi.first.wpilibj.I2C.Port;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.Orchestra;
@@ -34,14 +34,14 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-  private final TalonFX musicMotor = new TalonFX(19);
+  private final TalonFX musicMotor = new TalonFX(27);
   private final Orchestra orchestra = new Orchestra();
   private final DigitalInput input = new DigitalInput(0);
 
   // private Rev2mDistanceSensor distOnboard;
   // private Rev2mDistanceSensor distMXP;
 
-  private static ColorSensorV3 colorSensorLow = new ColorSensorV3(Port.kMXP);
+  //private static ColorSensorV3 colorSensorLow = new ColorSensorV3(Port.kMXP);
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    StatusCode error = orchestra.loadMusic("zelda.chrp");
+    StatusCode error = orchestra.loadMusic("mega.chrp");
     orchestra.addInstrument(musicMotor);
 
     // distOnboard = new Rev2mDistanceSensor(Port.kOnboard);
@@ -118,8 +118,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     // distOnboard.setAutomaticMode(true);
-    StatusCode status = orchestra.play();
-    System.out.println(status);
 
   }
 
@@ -127,6 +125,14 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     // System.out.println(orchestra.isPlaying());
+
+    boolean status = orchestra.isPlaying();
+    
+    if (input.get() == true && status == false) {
+      orchestra.play();
+    } else if (input.get() == false && status == true) {
+      orchestra.stop();
+    }
 
     SmartDashboard.putBoolean("Break?", input.get());
 
